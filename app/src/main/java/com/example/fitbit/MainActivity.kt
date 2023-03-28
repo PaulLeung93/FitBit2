@@ -33,8 +33,8 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch{
 
             (application as MyApplication).db.nutritionDao().getAll().collect { databaseList ->
+                nutritionList.clear()
                 databaseList.map { mappedList ->
-                    // waters.clear()
                     nutritionList.addAll(listOf(mappedList))
                     nutritionAdapter.notifyDataSetChanged()
                 }
@@ -72,6 +72,11 @@ class MainActivity : AppCompatActivity() {
 
             override fun onItemClick(position: Int) {
                 Toast.makeText(this@MainActivity, "Item removed at position $position", Toast.LENGTH_LONG).show()
+                val itemToDelete = nutritionList[position]
+
+                lifecycleScope.launch(Dispatchers.IO) {
+                    (application as MyApplication).db.nutritionDao().deleteItem(itemToDelete)
+                }
                 nutritionList.removeAt(position)
                 nutritionAdapter.notifyItemRemoved(position)
             }
