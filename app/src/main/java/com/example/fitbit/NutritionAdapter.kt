@@ -33,8 +33,6 @@ class NutritionAdapter(private val context: Context, private val nutritionList: 
         return ViewHolder(view, mListener)
     }
 
-
-
     inner class ViewHolder(itemView: View, listener: onItemClickListener) : RecyclerView.ViewHolder(itemView) {
 
         private val food = itemView.findViewById<TextView>(R.id.tvFood)
@@ -55,7 +53,6 @@ class NutritionAdapter(private val context: Context, private val nutritionList: 
         }
 
     }
-
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val food = nutritionList[position]

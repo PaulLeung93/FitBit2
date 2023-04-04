@@ -19,4 +19,8 @@ interface NutritionDao {
 
     @Query("DELETE FROM nutrition_table")
     fun deleteAll()
+
+    @Query("SELECT calories FROM nutrition_table")
+    fun getCal(): List<String>
+
 }

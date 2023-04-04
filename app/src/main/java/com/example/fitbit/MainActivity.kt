@@ -5,18 +5,19 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitbit.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    private val nutritionList = mutableListOf<Nutrition>()
-    private lateinit var nutritionRV: RecyclerView
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,62 +26,35 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        //RecyclerView
-        nutritionRV = findViewById(R.id.recyclerView)
-        val nutritionAdapter = NutritionAdapter(this,nutritionList)
-        nutritionRV.adapter = nutritionAdapter
+        //val fragmentManager: FragmentManager = supportFragmentManager
 
-        lifecycleScope.launch{
+        //Defining our Fragments
+        val fragment1: Fragment = FoodFragment()
+        val fragment2: Fragment = StatFragment()
 
-            (application as MyApplication).db.nutritionDao().getAll().collect { databaseList ->
-                nutritionList.clear()
-                databaseList.map { mappedList ->
-                    nutritionList.addAll(listOf(mappedList))
-                    nutritionAdapter.notifyDataSetChanged()
-                }
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        bottomNavigationView.setOnItemSelectedListener{ item ->
+            lateinit var fragment: Fragment
+            when (item.itemId) {
+                R.id.Food -> fragment = fragment1
+                R.id.Stats -> fragment = fragment2
+
             }
+            replaceFragment(fragment)
+            true
         }
 
-        nutritionRV.layoutManager = LinearLayoutManager(this).also {
-            val dividerItemDecoration = DividerItemDecoration(this, it.orientation)
-            nutritionRV.addItemDecoration(dividerItemDecoration)
-        }
-
-
-        //Calling an intent on Button Click
-        val add = findViewById<Button>(R.id.button)
-        add.setOnClickListener {
-            val i = Intent(this@MainActivity, DetailActivity::class.java)
-            startActivity(i)
-        }
-
-        //Button to delete all Entries
-        val delete = findViewById<Button>(R.id.btnDelete)
-        delete.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO) {
-            (application as MyApplication).db.nutritionDao().deleteAll()
-            }
-
-            nutritionList.clear()
-            finish();
-            startActivity(getIntent());
-        }
-
-
-        //Remove Item
-        nutritionAdapter.setOnItemClickListener(object: NutritionAdapter.onItemClickListener{
-
-            override fun onItemClick(position: Int) {
-                Toast.makeText(this@MainActivity, "Item removed at position $position", Toast.LENGTH_LONG).show()
-                val itemToDelete = nutritionList[position]
-
-                lifecycleScope.launch(Dispatchers.IO) {
-                    (application as MyApplication).db.nutritionDao().deleteItem(itemToDelete)
-                }
-                nutritionList.removeAt(position)
-                nutritionAdapter.notifyItemRemoved(position)
-            }
-        })
+        // Set default selection
+        bottomNavigationView.selectedItemId = R.id.Food
 
     }
+
+    private fun replaceFragment(articleListFragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.article_frame_layout, articleListFragment)
+        fragmentTransaction.commit()
+    }
+
+
 }

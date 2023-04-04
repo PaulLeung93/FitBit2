@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/Food"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_food_bank_24"
+        android:title="Log"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/Stats"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_calculate_24"
+        android:title="Stats"
+        app:showAsAction="ifRoom" />
+
+</menu>

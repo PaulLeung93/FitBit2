@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StatFragment">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="MIN CALORIES: "
+            android:layout_gravity="center"
+            android:textSize="30dp"/>
+        <TextView
+            android:id="@+id/minCal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=" "
+            android:layout_gravity="center|right"
+            android:textSize="30dp"/>
+        <TextView
+            android:id="@+id/maxCal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="MAX CALORIES: "
+            android:layout_gravity="center|right"
+            android:textSize="30dp"/>
+        <TextView
+            android:id="@+id/MaxCal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=" "
+            android:layout_gravity="center|right"
+            android:textSize="30dp"/>
+        <TextView
+            android:id="@+id/avgCal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="AVG CALORIES:"
+            android:layout_gravity="center|right"
+            android:textSize="30dp"/>
+        <TextView
+            android:id="@+id/AVGCal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=" "
+            android:layout_gravity="center|right"
+            android:textSize="30dp"/>
+
+    </LinearLayout>
+
+</FrameLayout>
